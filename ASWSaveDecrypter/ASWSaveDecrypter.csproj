@@ -9,4 +9,8 @@
         <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.IO.Hashing" Version="11.0.0-preview.3.26207.106" />
+    </ItemGroup>
+
 </Project>

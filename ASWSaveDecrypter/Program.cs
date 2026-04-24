@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.IO.Compression;
+using System.IO.Hashing;
 using System.Security.Cryptography;
 using System.Text;
 using AesProvider = System.Security.Cryptography.Aes;
@@ -53,6 +54,10 @@ else
     var key = Encoding.ASCII.GetBytes(args[0]).Take(32).ToArray();
 
     var file = File.ReadAllBytes(args[1]);
+
+    var data = file[0x10..(BitConverter.ToInt32(file, 8) + 0x10)];
+    var hash = Crc32.Hash(data);
+    hash.CopyTo(file, 4);
 
     var encrypt = provider.CreateEncryptor(key, null).TransformFinalBlock(file, 0, file.Length);
     using var ms = new MemoryStream();
